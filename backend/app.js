@@ -3,9 +3,8 @@ const mongoose = require('mongoose');
 const path = require('path');
 const cors = require('cors');
 
-//const postsRoutes = require('./routes/posts');
+const postsRoutes = require('./routes/posts');
 const userRoutes = require('./routes/user');
-const bookRoutes = require('./routes/book');
 
 const app = express();
 
@@ -25,13 +24,10 @@ app.use((req, res, next) => {
    next();
  });
 
-//app.use('/api/posts', postsRoutes);
+app.use('/api/posts', postsRoutes);
 app.use('/api/auth', userRoutes);
-app.get('/', (req, res) => {
-  res.send('Hello World!')
-})
-app.use('/book', bookRoutes);
 
-//app.use('/images', express.static(path.join(__dirname, 'images')));*/
+
+app.use('/images', express.static(path.join(__dirname, 'images')));
 
 module.exports = app;

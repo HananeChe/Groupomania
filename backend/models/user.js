@@ -2,8 +2,8 @@ const mongoose = require('mongoose');
 const uniqueValidator = require('mongoose-unique-validator');
 
 const userSchema = mongoose.Schema({
-    nom: {type: String, required: true},
-    prenom: {type: String, required: true},
+    nom: {type: String},
+    prenom: {type: String},
     picture : {type: String, default: "..../profil-pic.png"},
     email : {type: String, required: true, unique: true},
     password :{type: String, required: true}
