@@ -1,9 +1,9 @@
 const mongoose = require('mongoose');
 
 const postModel = mongoose.Schema({
-    userId: {type: String, required: true},
-    userName: {type: String},
-    post: {type: String, required: true},
+    userId: {type: String,},
+    userName: {type: String, required: true},
+    content: {type: String, required: true},
     imageUrl: {type: String},
     comments : {type: [{
         commenterId: String,
