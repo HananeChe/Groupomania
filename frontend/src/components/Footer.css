@@ -1,0 +1,17 @@
+.footer {
+    margin-top: 100px;
+    background-color: #4E5166;
+    color: white;
+}
+
+.h3 {
+    justify-content: center;
+}
+
+.ul {
+    text-decoration: none;
+    list-style-type: none;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
