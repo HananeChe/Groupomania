@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom' 
+import Navbar from '../components/Navbar';
 import State from '../components/State';
 
 //import { Loader } from '../components/Loader';
@@ -23,16 +24,17 @@ export default function Posts() {
   
     useEffect(() => {
       getAllPost();
-    }, []);
+    }, );
 
   
     return (
        <div>
         <div>
+          <Navbar />
+        </div>
+        <div>
           <State />
         </div>
-
-
         <div>
           <h1>Les derniers posts:</h1>
             {data.map(dataPost => (

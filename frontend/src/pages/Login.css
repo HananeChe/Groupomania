@@ -1,0 +1,45 @@
+.log {
+    border: 1px solid black;
+    text-align: center;
+    margin: auto;
+    padding: 30px;
+    width: 100%;
+    max-width: 700px;
+    border-radius: 5px;
+    box-shadow: 10px 5px 10px 2px black;
+}
+
+.log h1 {
+    text-align: center;
+}
+
+.control {
+    margin-bottom: 10px;
+}
+
+.control label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 5px;
+
+}
+
+.control input {
+    font: inherit;
+    width: 90%;
+    padding: 5px;
+    border-radius: 5px;
+}
+
+.btnClick {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.btn {
+    font: inherit;
+    padding: 5px 10px;
+    border-radius: 5px;
+    cursor: pointer;
+}

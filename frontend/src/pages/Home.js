@@ -1,15 +1,18 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
+import './Home.css'
 
 export default function Home() {
 
+    const navigate = useNavigate();
+  
   return (
-    <div>
+    <div className='home'>
         <h1>Bienvenue sur le réseau sociale de Groupomania !</h1>
-        <div>
-            <button className="btn" onClick={() => {<Link to="/login" />}}>Se connecter</button>
-            <button className="btn" onClick={() => {<Link to="/signup" />}}>S'inscrire</button>
-        </div>
+          <div>
+              <button className='btn' onClick={() => navigate('/login') }>Se connecter</button>
+              <button className='btn' onClick={() => navigate('/signup') }>S'inscrire</button>
+          </div>
     </div>
   )
 }
