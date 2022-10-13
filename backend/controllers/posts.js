@@ -6,13 +6,12 @@ const fs = require('fs');
 
 
 exports.createPost = (req, res, next) => {
-    console.log(req.body);
 /*const postObject = JSON.parse(req.body.post);
     console.log(postObject);
     delete postObject.userId;*/
     const post = new PostsList({
         //...postObject,
-        userId: user._id,      //req.auth undefined
+        userId: req.body.userId,     
         userName: req.body.userName,
         content: req.body.content,
         //imageUrl: `${req.protocol}://${req.get('host')}/images/${req}`,    //req.file.filename undefined
@@ -40,6 +39,8 @@ exports.modifyPost = (req, res, next) => {
     delete postObject._userId;
     PostsList.findOne({_id: req.params.id})
         .then((post) => {
+            //recuperer le userId.auth et verifier si role admni
+            // si userId.auth != post.userId || que le user n'ai pas de role admin => error
             if (post.userId != req.auth.userId) {
                 res.status(401).json({ message : 'Not authorized'});
             } else {
@@ -56,22 +57,22 @@ exports.modifyPost = (req, res, next) => {
 
 exports.deletePost = (req, res, next) => {
     PostsList.findOne({ _id: req.params.id})
-    /*.then(post => {
+    .then(post => {
         if (post.userId != req.auth.userId) {
             res.status(401).json({message: 'Not authorized'});
         } else {
-            const filename = post.imageUrl.split('/images/')[1];
-            fs.unlink(`images/${filename}`, () => {*/
                 PostsList.deleteOne({_id: req.params.id})
                     .then(() => { res.status(200).json({message: 'Post supprimé !'})})
                     .catch(error => res.status(401).json({ error }));
-           /* });
-        
-    })
+        }
+        })
     .catch( error => {
         res.status(500).json({ error });
-    });*/
+});
 };
+
+/*const filename = post.imageUrl.split('/images/')[1];
+fs.unlink(`images/${filename}`, () => {*/
 
 exports.likePost = (req, res, next) => {
     let liked = req.body.like;
@@ -117,8 +118,8 @@ exports.getOnePost = (req, res, next) => {
 
 exports.getAllPost = (req, res, next) => {
     PostsList.find()
-    .then(posts => res.status(200).json(posts), console.log("get ok"))
-    .catch(error => res.status(400).json({error}), console.log("get non ok"))
+    .then(posts => res.status(200).json(posts))
+    .catch(error => res.status(400).json({error}))
     }
 
 

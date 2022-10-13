@@ -43,3 +43,15 @@
     border-radius: 5px;
     cursor: pointer;
 }
+
+.toggle {
+    padding-top: 20px;
+    color: #4E5166;
+    cursor: pointer;
+    font-weight: bold;
+    font-style: italic;
+}
+
+.toggle:hover {
+    color: #FD2D01;
+}

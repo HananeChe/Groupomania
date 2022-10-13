@@ -1,0 +1,20 @@
+@keyframes loading {
+    from {
+        transform: rotate(0deg);
+    }
+ 
+    to {
+    transform: rotate(360deg);
+    }
+}
+
+
+.loadingSpinner {
+    padding: 10px;
+    border: 6px solid blue;
+    border-bottom-color: transparent;
+    border-radius: 22px;
+    animation: loading 1s infinite linear;
+    height: 0;
+    width: 0
+}

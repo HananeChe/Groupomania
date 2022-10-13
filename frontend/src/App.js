@@ -1,32 +1,45 @@
-import React from 'react';
+import React, { useContext }from 'react';
 import {Routes, Route} from "react-router-dom"
 import './App.css';
 import Posts from './pages/Posts';
 import Post from './pages/Post';
 import Login from './pages/Login';
-import Signup from './pages/Signup';
 //import Navbar from './components/Navbar';
 import Header from './components/Header';
 import Footer from './components/Footer';
-import Home from './pages/Home';
+import LogContext from './config/LogContext';
+import Publish from './pages/Publish';
+//import Test from './pages/Test';
+
 
 function App() {
+//contexte
+const logCtx = useContext(LogContext);
+const isLogged = logCtx.isLogged;
+console.log(isLogged);
+
+
+
   return (
     <div className="App">
+
       <Header />
       <Routes>
-      <Route path="/" element={<Home />} />
+      <Route path="/" element={isLogged ? <Posts /> : <Login /> }>
+      </Route>
       </Routes>
       
       <Routes>
-        <Route path="/login" element={<Login /> } />
-        <Route path='/signup' element={<Signup />} />
-        <Route path="/accueil" element={<Posts /> } />
-        <Route path='/post/:id' element={<Post />} />
+      <Route path="/create" element={<Publish />} />
+      <Route path="/post/:id" element={<Post />} />
       </Routes>
       <Footer />
+
     </div>
   );
 }
 
 export default App;
+
+//            <Route path='/post/:id' element={<Post />} />
+//        {!isLogged && <Route path="/login" element={<Login />} />   }

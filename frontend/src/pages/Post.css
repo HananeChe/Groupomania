@@ -1,0 +1,45 @@
+.containerPost {
+    background-color: #FFD7D7;
+    border: 1px solid #4E5166;
+    border-radius: 20px;
+    margin: auto;
+    margin-top: 50px;
+    padding: 10px;
+    width: 100%;
+    max-width: 800px;
+}
+
+.btn button{
+    margin: 10px;
+    padding: 3px 10px;
+}
+
+.activeLike {
+    background-color: blue;
+    border-radius: 8px;
+    font-size: 20px;
+    color: black;
+    padding: 20px;
+    text-align: center;
+    overflow: hidden;
+    cursor: pointer;
+}
+.activeDislike {
+    border-radius: 8px;
+    font-size: 20px;
+    color: black;
+    padding: 20px;
+    text-align: center;
+    overflow: hidden;
+    cursor: pointer;
+    background-color: #FD2D01;
+}
+.button {
+    border-radius: 8px;
+    font-size: 20px;
+    color: black;
+    padding: 15px;
+    text-align: center;
+    overflow: hidden;
+    cursor: pointer;
+}
