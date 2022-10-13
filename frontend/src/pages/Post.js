@@ -4,9 +4,9 @@ import Navbar from '../components/Navbar';
 import LogContext from '../config/LogContext';
 import './Post.css';
 
-export default function Post() {
-
-    const [data, setData]= useState([]);
+export default function Post(data) {
+    const [dataUpdate, setDataUpdate]= useState(data);
+    const [dataUser, setDataUser] = useState([]);
     const [update, setUpdate] = useState(false);
     const [likes, setLikes] = useState(0); 
     const [dislikes, setDislikes] = useState(0); 
@@ -22,6 +22,8 @@ export default function Post() {
        //contexte
     const logCtx = useContext(LogContext);
 
+// mettre le userName dans le localStorage 
+localStorage.setItem("userName", dataUser.userName,)
 
     if (data.userId === logCtx.userId) {
       isAllowed = true;
@@ -29,7 +31,7 @@ export default function Post() {
     // ou role admnin a ajouter 
 
 
-    const getAllPost = () => {
+    const getOnePost = () => {
 
         return fetch('http://localhost:3001/api/posts/' + id,{
           method: "GET",
@@ -41,18 +43,42 @@ export default function Post() {
         })
           .then((res) => res.json())
           .then((data) => {
-            setData(data)
-            }, console.log(data))
+            setDataUpdate(data)
+            })
           .catch((error) => {
             console.error(error);
           })
       };
       
         useEffect(() => {
-          getAllPost();
+          getOnePost();
         },[]);
+        
+
 
     let navigate = useNavigate(); 
+
+    const getUser = () => {
+
+      return fetch('http://localhost:3001/api/auth/users/' + logCtx.userId,{
+        method: "GET",
+        headers:{
+          "Content-type" : "application/json",
+          Authorization: `Bearer ${logCtx.token}`
+        }
+      })
+        .then((res) => res.json())
+        .then((data) => {
+          setDataUser(data)
+          })
+        .catch((error) => {
+          console.error(error);
+        })
+    };
+
+    useEffect(() => {
+      getUser();
+    },[]); 
   const deleteRoute = () =>{ 
       fetch('http://localhost:3001/api/posts/' + id, {
         method: "DELETE",
@@ -63,7 +89,7 @@ export default function Post() {
       })
         .then((res) => res.json())
         .then((data) => {
-          setData(data)
+          setDataUpdate(data)
           }, console.log(data))
         .catch((error) => {
           console.error(error);
@@ -71,6 +97,7 @@ export default function Post() {
 
         let path = `/`; 
         navigate(path); 
+
     };
 
 
@@ -84,13 +111,11 @@ export default function Post() {
       })
         .then((res) => res.json())
         .then((data) => {
-          setData(data)
-          }, console.log(data))
+          setDataUpdate(dataUpdate);
+          }, console.log(dataUpdate))
         .catch((error) => {
           console.error(error);
         })
-        /*let path = `/create`; 
-        navigate(path);*/
         setUpdate((update) => !update)
         console.log(update);
     }
@@ -98,6 +123,10 @@ export default function Post() {
     const updateHandler = () => {
       const newInput = updatePost.current.value;
       console.log(newInput);
+      setDataUpdate({
+        ...dataUpdate,
+        "content":  newInput,
+    })
     }
 
   const removeLike = () => {
@@ -206,11 +235,12 @@ const handleDislike = () => {
       </div>
 
       <div className='containerPost'>
-        <h1>{data.userName} {data.userId} dit:</h1>
+        <h1>{dataUser.userName} dit:</h1>
 
-            <div key={data._id}>
-                {!update && <p key={data._id}>{data.content}</p>}
-                {update && <input type="text" value={data.content} onChange={updateHandler} ref={updatePost}></input>}
+            <div key={dataUpdate._id}>
+                {!update && <p key={dataUpdate._id}>{dataUpdate.content}</p>}
+                {update && <input type="text" onChange={updateHandler} ref={updatePost}></input>
+                }
                 {isAllowed ?
                 <div className='btn'>
                 <button onClick={updateRoute}>Modifier</button>
@@ -228,3 +258,6 @@ const handleDislike = () => {
     </div>
   )
 }
+
+
+//

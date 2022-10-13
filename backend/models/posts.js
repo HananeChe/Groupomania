@@ -5,11 +5,7 @@ const postModel = mongoose.Schema({
     userName: {type: String},
     content: {type: String, required: true},
     imageUrl: {type: String},
-    comments : {type: [{
-        commenterId: String,
-        commenterPseudo: String,
-        text: String,
-    }]},
+    comments : {type: Array},
     likes: {type: Number},
     dislikes: {type: Number},
     usersLiked: {type: Array},

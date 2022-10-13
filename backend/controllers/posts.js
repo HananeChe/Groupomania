@@ -28,7 +28,16 @@ exports.createPost = (req, res, next) => {
     .catch(error => { res.status(400).json( { error })}, console.log("error catch post"))
 }; 
 
+exports.createComment = (req, res, next) => {
+    PostsList.findOne({
+        content: req.body.content,
+        comments: []
+    })
 
+        .then(() => { res.status(201).json({message: 'Commentaire enregistré !'})})
+        .catch(error => { res.status(400).json({ error })}, console.log("error catch post"))
+}; 
+    
 
 exports.modifyPost = (req, res, next) => {
     const postObject = req.file ? {
@@ -36,7 +45,7 @@ exports.modifyPost = (req, res, next) => {
         imageUrl: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
     } : { ...req.body };
   
-    delete postObject._userId;
+    delete postObject._userId;{}
     PostsList.findOne({_id: req.params.id})
         .then((post) => {
             //recuperer le userId.auth et verifier si role admni
