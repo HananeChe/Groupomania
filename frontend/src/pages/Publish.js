@@ -4,14 +4,18 @@ import Navbar from '../components/Navbar';
 //import Login from '../pages/Login';
 
 export default class State extends Component {
+  // userName 
+  
   constructor (props) {
     super(props)
 
     const userIdStorage = localStorage.getItem("userId");
+    const userNameStorage = localStorage.getItem("userName");
+    console.log(userNameStorage);
  
     this.state = {
       userId: userIdStorage,
-      userName:"",
+      userName: userNameStorage,
       content:"",
       items: []
 
@@ -51,33 +55,29 @@ export default class State extends Component {
           alert("Votre post n'a pas pu être publié : " + data.error); 
       } else { 
         this.setState({
-          userName:"",
           content:"",
-          items:[...this.state.items, {userName: this.state.userName, content: this.state.content}],
+          items:[...this.state.items, {content: this.state.content}],
       })
   }})
   .catch(error => {
       console.error(error);
 });
-    /*this.setState({
-        userName:"",
-        content:"",
-        items:[...this.state.items, {userName: this.state.userName, content: this.state.content}]
-    });*/
   }
+
 
   renderPost =() => {
     return this.state.items.map((item, index) => {
         return (
             <div key={index}>
-            <h3>{this.state.userId} vient de publier:</h3>
-            <Link to={"/post/" + this.state.userId} key={"post" + this.state.userId}>{this.state.userId}</Link>
+            <h3>{this.state.userName} vient de publier:</h3>
+            <Link to={"/post/" + this.state.userId} key={"post" + this.state.userId}>{this.state.userName}</Link>
             <p key={"content" + index}>{item.content}</p>
             </div>
         )
     }
   )}
 
+  
 //<Link to={"/post/" + index} key={"post" + index}>{item.userName}</Link>
 
     render() {
@@ -90,7 +90,7 @@ export default class State extends Component {
         <div>
 
             <label htmlFor='post'>Publier un post:</label>
-            <input type="text" name="content" onChange={this.onChange} value= {this.state.content} />
+            <input type="text" name="content" onChange={this.onChange} value={this.state.content}/>
           
         </div>
         <div className="">
