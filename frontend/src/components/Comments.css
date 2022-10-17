@@ -1,0 +1,35 @@
+.comsBtn {
+    display: flex;
+    margin: auto;
+    border-radius: 10px;
+    padding: 5px 10px;
+    font-size: 15px;
+    margin-bottom: 20px;
+}
+
+.comsBtn:hover {
+    background-color: rgb(78, 81, 102);
+    color: white;
+
+}
+.inputCom {
+    border-radius: 10px;
+}
+.newCom {
+    background-color:rgb(78, 81, 102, 0.2);
+    border: 1px solid black;
+    border-radius: 20px;
+    width: 70%;
+    margin: auto;
+    margin-bottom: 5px;
+    margin-top: 5px;
+}
+
+.newCom h4 {
+    margin: 5PX
+}
+
+.newCom p {
+    margin: 5px;
+    font-style: italic;
+}

@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 const uniqueValidator = require('mongoose-unique-validator');
 
 const userSchema = mongoose.Schema({
-    role: {type: String, default:'user'},
+    isAdmin: {type: Boolean, default:false},
     userName: {type:String},
     picture : {type: String, default: "..../profil-pic.png"},
     email : {type: String, required: true, unique: true},

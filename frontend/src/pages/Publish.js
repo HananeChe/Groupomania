@@ -1,84 +1,98 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom';
 import Navbar from '../components/Navbar';
-//import Login from '../pages/Login';
+import './Publish.css'
 
 export default class State extends Component {
-  // userName 
+  
   
   constructor (props) {
     super(props)
 
+    //localstorage 
     const userIdStorage = localStorage.getItem("userId");
     const userNameStorage = localStorage.getItem("userName");
-    console.log(userNameStorage);
  
+    // données du state necessaire pour faire une publication
     this.state = {
       userId: userIdStorage,
       userName: userNameStorage,
       content:"",
+      imageUrl: null,
       items: []
 
   }
 
+    // liaison pour l'utilisation de `this` dans la fonction de rappel.
   this.onChange = this.onChange.bind(this);
   this.onSubmit = this.onSubmit.bind(this);
 
   }
   
+  //handle des données type string
   onChange = (event) => {
     this.setState({
-        [event.target.name] : event.target.value
+        [event.target.name] : event.target.value,
     });
-    console.log(this.state.content);
-    console.log(event.target.value);
   }
+
+//handle de l'image 
+onChangeImg = (event) => {
+  this.setState({
+    imageUrl: event.target.files[0]
+  })
+  console.log(event.target.files[0]);
+}
   
   onSubmit = (event) => {
     event.preventDefault()
 
     const tokenStorage = localStorage.getItem("token");
-    let token = "Bearer " + tokenStorage ;
+    const token = "Bearer " + tokenStorage ;
+    const content = this.state.content;
+    const img = this.state.imageUrl;
+    const userId = this.state.userId;
+    const userName = this.state.userName;
 
-    return fetch(('http://localhost:3001/api/posts'),{
+    //envoi du state dans le formData 
+    const formData = new FormData();
+    formData.append('image', img);
+    formData.append('content', content);
+    formData.append('userId', userId);
+    formData.append('userName', userName);
+    console.log(content);
+    console.log(img);
+    console.log(userId);
+    console.log(userName);
+
+  return fetch(('http://localhost:3001/api/posts'),{
       method: "POST",
       headers:{
-        "Content-type" : "application/json",
         Authorization: token
       },
-      body: JSON.stringify(this.state)
+      body: formData
     })
-  .then(res => res.json())
-  .then(
-      (data) => {
-      if (data.error) { 
-          alert("Votre post n'a pas pu être publié : " + data.error); 
-      } else { 
-        this.setState({
-          content:"",
-          items:[...this.state.items, {content: this.state.content}],
-      })
-  }})
-  .catch(error => {
+    .then(res => res.json())
+    .then((data) => {
+      console.log(formData)
+      alert('Votre post à été publié avec succés!')
+    })
+    .catch(error => {
       console.error(error);
-});
-  }
+    });
+}
+  
 
 
   renderPost =() => {
-    return this.state.items.map((item, index) => {
         return (
-            <div key={index}>
-            <h3>{this.state.userName} vient de publier:</h3>
-            <Link to={"/post/" + this.state.userId} key={"post" + this.state.userId}>{this.state.userName}</Link>
-            <p key={"content" + index}>{item.content}</p>
-            </div>
+          <div>
+            <h3>Votre poste à été publié avec succés !</h3>
+          </div>
         )
     }
-  )}
 
-  
-//<Link to={"/post/" + index} key={"post" + index}>{item.userName}</Link>
+
 
     render() {
     return (
@@ -87,17 +101,16 @@ export default class State extends Component {
                 <Navbar />
             </div>
         <form onSubmit={this.onSubmit}>
+        <div className='publish'>
+            <label htmlFor='post'>Publier un post:</label>
+            <input type="text" name="content" onChange={this.onChange} value={this.state.content} className="inputText"/>
+            <input type="file" onChange={this.onChangeImg} name={this.state.imageUrl}className="inputFile"/>
+            <button className='btn'>Valider</button>
+        </div>
         <div>
 
-            <label htmlFor='post'>Publier un post:</label>
-            <input type="text" name="content" onChange={this.onChange} value={this.state.content}/>
-          
-        </div>
-        <div className="">
-          <button>Valider</button>
         </div>
         </form>
-        {this.renderPost()}
       </div>
     )
 }

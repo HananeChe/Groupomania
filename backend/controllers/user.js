@@ -2,6 +2,7 @@ const User = require('../models/user');
 
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
+const { rmSync } = require('fs');
 
 
 exports.signup = (req, res, next) => {
@@ -32,14 +33,13 @@ exports.login = (req, res, next) => {
                 if(!valid)
                 res.status(401).json({message: 'Paire identifiant/mot de passe incorrecte'});
                 else {
-                    res.status(200).json({
-                        userId: user._id,
-                        token: jwt.sign( 
-                            {userId: user._id},
+                        const token = jwt.sign( 
+                            {userId: user._id, isAdmin: user.isAdmin},
                             'RANDOM_TOKEN_SECRET',
                             {expiresIn: '24h'}
                         )
-                    })
+                    res.header('Authorization', 'Bearer' + token);
+                    return res.json({token, userId: user._id, isAdmin: user.isAdmin})
                 }
             })
             .catch(error => res.status(500).json({ error }))

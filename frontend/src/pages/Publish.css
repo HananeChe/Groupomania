@@ -1,0 +1,36 @@
+.publish {
+    background-color: #FFD7D7;
+    border: 1px solid #4E5166;
+    border-radius: 20px;
+    margin: auto;
+    margin-bottom: 30px;
+    margin-top: 30px;
+    padding: 10px;
+    width: 100%;
+    max-width: 800px;
+    display: flex;
+    flex-direction: column;
+}
+
+.publish label {
+    font-size: 20px;
+    margin-bottom: 10px;
+    padding: 20px;
+}
+
+.inputText {
+    width: 60%;
+    margin: auto;
+    padding: 15px;
+    font-size: large;
+    border-radius: 10px;
+}
+
+.inputFile {
+    margin: auto;
+    padding: 20px;
+}
+
+.btn {
+    margin: auto;
+}

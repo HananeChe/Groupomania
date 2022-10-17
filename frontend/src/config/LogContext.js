@@ -47,7 +47,7 @@ export const LogContextProvider = (props) => {
 
     // verification de connexion (false or true)
     const userIsLogged = !!token;
-    console.log(userIsLogged);
+    //console.log(userIsLogged);
 
     //valeure du contexte
     const contextValue = {

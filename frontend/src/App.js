@@ -4,12 +4,12 @@ import './App.css';
 import Posts from './pages/Posts';
 import Post from './pages/Post';
 import Login from './pages/Login';
-//import Navbar from './components/Navbar';
 import Header from './components/Header';
 import Footer from './components/Footer';
 import LogContext from './config/LogContext';
 import Publish from './pages/Publish';
-//import Test from './pages/Test';
+//import Img from './components/Img';
+
 
 
 function App() {

@@ -1,23 +1,45 @@
-import React, { Component } from 'react'
-import { Link } from 'react-router-dom';
+import React, { Component } from 'react';
+import './Comments.css'
 
 export default class Comments extends Component {
     constructor (props) {
         super(props)
-    
+
         const userIdStorage = localStorage.getItem("userId");
-        const userNameStorage = localStorage.getItem("userName");
+        const token = localStorage.getItem("token");
 
         this.state = {
-            userId: userIdStorage,
-            userName: userNameStorage,
-            articleId: '',
-            content: undefined,
-            comments: [],
-        }
+          id: props.id,
+          userId: userIdStorage,
+          userName: "",
+          articleId: '',
+          content: undefined,
+          comments: props.comments,
+      }
+      
+       fetch('http://localhost:3001/api/auth/users/' + userIdStorage, {
+          method: "GET",
+          headers:{
+            "Content-type" : "application/json",
+            Authorization: `Bearer` + token
+          }
+        })
+          .then((res) => res.json())
+          .then((data) => {
+            this.setState({
+              userName: data.userName
+            })
+            })
+          .catch((error) => {
+            console.error(error);
+          })
+        
+
 
         this.handleChange = this.onChange.bind(this);
         this.handleSubmit = this.onSubmit.bind(this);
+        
+
     }
 
     onChange = (event) => {
@@ -26,15 +48,16 @@ export default class Comments extends Component {
         });
         console.log(this.state.content);
         console.log(event.target.value);
+        console.log(this.state);
       }
 
       onSubmit = (event) => {
         event.preventDefault()
-    
+        console.log("j'ai été appelé");
         const tokenStorage = localStorage.getItem("token");
         let token = "Bearer " + tokenStorage ;
     
-        return fetch(('http://localhost:3001/api/posts/comments'),{
+        return fetch((`http://localhost:3001/api/posts/${this.state.id}/comments`),{
           method: "POST",
           headers:{
             "Content-type" : "application/json",
@@ -48,39 +71,44 @@ export default class Comments extends Component {
           if (data.error) { 
               alert("Votre commentaire n'a pas pu être publié : " + data.error); 
           } else { 
+            console.log(data.data);
             this.setState({
-              content:"",
-              comments:[...this.state.comments, {content: this.state.content}],
+              userId: data.data.userId,
+              content:data.data.content,
+              comments: data.data.comments,
+              userName: data.data.userName,
           })
+          console.log(this.state.userName);
+          console.log(this.state.comments);
       }})
       .catch(error => {
           console.error(error);
     });
-      }
-      renderPost =() => {
-        return this.state.comments.map((comment, index) => {
-            return (
-                <div key={comment + this.state.userId}>
-                <h4>Publié par {this.state.userName}</h4>
-                <p key={"comment" + comment.id} className="content-comment">{comment.content}</p>
-                </div>
-            )
-        }
-      )}
+      } 
+
+
+
 
   render() {
     return (
       <div>
             <div>
-                <form controlId="exampleForm.ControlTextarea1" >
-                        <label>Votre commentaire :</label>
-                        <input type="textarea" name="content" value={this.state.content} onChange={this.onChange}/>
-                    </form>
-                    <div className="form-submit">
-                        <button className="btn btn-outline-info" onClick={this.onSubmit}>Post</button>
+                <form>
+                        <label>Ecrire un commentaire :</label>
+                        <input className='inputCom' type="textarea" name="content" value={this.state.content} onChange={this.onChange}/>
+                    <div>
+                        <button className='comsBtn' onClick={this.onSubmit}>Publier un commentaire</button>
                     </div>
-                    {this.renderPost()}
+                </form>
+            </div>
+            <div>
+                {this.state.comments.map(element => 
+                <div key={"name" + element.userId} className="newCom">
+                  <h4>Publié par {element.userName}:</h4>
+                  <p key={"comment" + this.state.id} className="content-comment">{element.content}</p>
                 </div>
+                )}
+            </div>
 
       </div>
     )

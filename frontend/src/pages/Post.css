@@ -15,7 +15,7 @@
 }
 
 .activeLike {
-    background-color: blue;
+    background-color: #4E5166;
     border-radius: 8px;
     font-size: 20px;
     color: black;
@@ -32,7 +32,7 @@
     text-align: center;
     overflow: hidden;
     cursor: pointer;
-    background-color: #FD2D01;
+    background-color: #4E5166;
 }
 .button {
     border-radius: 8px;
@@ -42,4 +42,8 @@
     text-align: center;
     overflow: hidden;
     cursor: pointer;
+}
+
+.onePost img {
+    width: 80%;
 }

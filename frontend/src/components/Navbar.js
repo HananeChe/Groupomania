@@ -11,13 +11,13 @@ export default function Navbar() {
 const logCtx = useContext(LogContext);
 const isLogged = logCtx.isLogged;
 
-  const userId = localStorage.getItem("userId");
+  const userName = localStorage.getItem("userName");
 
   return (
     <div>
       <nav className='navbar'>
         <div className='container'>
-          <p>Bonjour {userId}</p>
+          <p>Bonjour {userName}</p>
           {isLogged && <button className="disconnect" onClick={logCtx.logout}>Se deconnecter</button>}
         </div>
         <ul className='navbar-nav'>
