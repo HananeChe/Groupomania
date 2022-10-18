@@ -8,7 +8,6 @@ import Header from './components/Header';
 import Footer from './components/Footer';
 import LogContext from './config/LogContext';
 import Publish from './pages/Publish';
-//import Img from './components/Img';
 
 
 
@@ -16,7 +15,6 @@ function App() {
 //contexte
 const logCtx = useContext(LogContext);
 const isLogged = logCtx.isLogged;
-console.log(isLogged);
 
 
 
@@ -40,6 +38,3 @@ console.log(isLogged);
 }
 
 export default App;
-
-//            <Route path='/post/:id' element={<Post />} />
-//        {!isLogged && <Route path="/login" element={<Login />} />   }

@@ -1,4 +1,6 @@
 import React, { createContext, useMemo, useState } from 'react'
+import { useNavigate } from 'react-router-dom';
+
 
 const defaultValue = {
     token : "",
@@ -10,10 +12,9 @@ const defaultValue = {
 }
 
 const LogContext = createContext(defaultValue);
-// controle du token dans le localStorage
+// controle du token & userId dans le localStorage
 const tokenStorage = localStorage.getItem("token");
 const userIdStorage = localStorage.getItem("userId");
-
 
 //provider 
 export const LogContextProvider = (props) => {
@@ -21,13 +22,8 @@ export const LogContextProvider = (props) => {
     const [token, setToken] = useState(tokenStorage);
     const [userId, setUserId] = useState(userIdStorage);
     const [userName, setUserName] = useState([]);
-
-    //fonction pour garder en memoire le userName 
-
-    //const nameValue = useMemo(()=>({userName, setUserName}), [userName, setUserName])
     
-
-    // fonction pour mettre à jour le token dans le state
+    // fonction pour mettre à jour les données d 'auth dans le state
     const loginHandler = (token, userId, userName) => {
         setToken(token);
         setUserId(userId);
@@ -39,10 +35,14 @@ export const LogContextProvider = (props) => {
     };
 
     // se deconnecter => token = null
-    const logoutHandler = () => {
+    const LogoutHandler = () => {
         setToken(null);
         //supprimer la donnees du localStorage
         localStorage.removeItem("token", "userId");
+        // retourner sur page d'authentification 
+        let navigate = useNavigate(); 
+        let path = `/`; 
+              navigate(path);
     }
 
     // verification de connexion (false or true)
@@ -56,7 +56,7 @@ export const LogContextProvider = (props) => {
         userName: userName,
         isLogged: userIsLogged,
         login : loginHandler,
-        logout: logoutHandler,
+        logout: LogoutHandler,
     };
 
     return(
@@ -66,6 +66,5 @@ export const LogContextProvider = (props) => {
 
     )
 }
-
 export default LogContext;
 

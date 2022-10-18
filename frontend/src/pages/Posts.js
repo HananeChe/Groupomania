@@ -10,7 +10,6 @@ export default function Posts() {
 
    const [data, setData]= useState([]); 
    const [dataUser, setDataUser] = useState([]);
-  console.log(data);
 
 // mettre le userName dans le localStorage 
 localStorage.setItem("userName", dataUser.userName,)
@@ -30,7 +29,6 @@ localStorage.setItem("userName", dataUser.userName,)
       .then((res) => res.json())
       .then((data) => {
         setDataUser(data)
-        console.log(data.userName);
         })
       .catch((error) => {
         console.error(error);
@@ -59,7 +57,6 @@ localStorage.setItem("userName", dataUser.userName,)
         console.error(error);
       })
     };
-  console.log(data);
     useEffect(() => {
       getAllPost();
     }, []);

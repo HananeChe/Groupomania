@@ -1,6 +1,5 @@
 import React, { useContext, useRef, useState } from 'react';
 import LogContext from '../config/LogContext';
-import Loader from '../components/Loader';
 import './Login.css';
 
 export default function Login() {
@@ -14,7 +13,6 @@ const logCtx = useContext(LogContext)
 console.log(logCtx.userName);
 
 const [data, setData]= useState([]); 
-const [isLoading, setIsLoading] =useState(false);
 const [hasAccount, setHasAcount] = useState(true);
 
 
@@ -23,7 +21,6 @@ const [hasAccount, setHasAcount] = useState(true);
 const toggleLog = () => {
   setHasAcount((prevState) => (!prevState))
 }
-
 
  const onSubmit = (event) => {
   
@@ -53,9 +50,6 @@ const toggleLog = () => {
     )
   }
   
-  //loading spinner à true 
-  setIsLoading(true)
-  
   //recup api 
   let url;
   url = "http://localhost:3001/api/auth/signup";
@@ -71,7 +65,7 @@ const toggleLog = () => {
       "Content-type" : "application/json"
     }
   })
-  .then((res) => res.json(), setIsLoading(false))
+  .then((res) => res.json())
   .then((data) => {
     setData(data)
     logCtx.login(data.token, data.userId, data.userName)
@@ -109,9 +103,6 @@ const toggleLog = () => {
     )
   }
   
-  //loading spinner à true 
-  setIsLoading(true)
-  
   //recup api 
   let url;
   url = "http://localhost:3001/api/auth/login";
@@ -127,8 +118,7 @@ const toggleLog = () => {
     }
   
   })
-  
-  .then((res) => res.json(), setIsLoading(false))
+  .then((res) => res.json())
   .then((data) => {
     setData(data)
     logCtx.login(data.token, data.userId)
@@ -141,9 +131,6 @@ const toggleLog = () => {
     passwordInputRef.current.value = "";
   }
 }
-
-console.log(data);
-console.log(logCtx);
   return (
     <div className='log'>
       {hasAccount? <h1>Connectez-vous</h1> : <h1>Créer un compte</h1>}
@@ -166,14 +153,9 @@ console.log(logCtx);
 
         <div className='btnClick'>
         <button className='btn' onClick={() => {}}>Go</button>
-        {isLoading && <Loader />}
         </div>
       </form>
       {<p  className='toggle' onClick={toggleLog}>{hasAccount ? "Cliquez ici pour créer un compte" : "Cliquez ici pour vous connectez-vous"}</p>}
     </div>
   )
 }
-
-
-//  durantc@mail.fr
-//  pass123

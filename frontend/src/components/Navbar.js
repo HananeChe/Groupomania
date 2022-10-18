@@ -11,6 +11,7 @@ export default function Navbar() {
 const logCtx = useContext(LogContext);
 const isLogged = logCtx.isLogged;
 
+
   const userName = localStorage.getItem("userName");
 
   return (
@@ -28,7 +29,3 @@ const isLogged = logCtx.isLogged;
     </div>
   )
 }
-
-
-
-//<li onClick={() => useNavigate('/create') }>Publier une publication</li>
