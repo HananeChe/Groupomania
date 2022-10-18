@@ -52,10 +52,11 @@ localStorage.setItem("userName", dataUser.userName,)
       .then((data) => {
         console.log(data);
         setData(data)
-        })
+      })
       .catch((error) => {
         console.error(error);
       })
+
     };
     useEffect(() => {
       getAllPost();
@@ -70,10 +71,10 @@ localStorage.setItem("userName", dataUser.userName,)
         </div>
         <div className='containerPosts'>
           <h1>Les derniers posts:</h1>
-            {data.map(dataPost => (
+            {data.slice(0).reverse().map(dataPost => (
             <div key={dataPost._id} className="post">
             <Link to={"/post/" + dataPost._id} key={"post" + dataPost._id} className="linkPost">{dataPost.userName} a posté:</Link>
-            <p><img src={dataPost.imageUrl} alt={"photo" + dataPost.content }></img></p>
+            {(dataPost.imageUrl !== null ? <p><img src={dataPost.imageUrl} alt={"photo" + dataPost.content }></img></p> : <p></p>)}
             <p key={"content" + dataPost.userName}>"{dataPost.content}"</p>
             <div className='comment' onClick={()=> ""}>
               <Comments id={dataPost._id} dataUser={dataPost.userName} comments={dataPost.comments} />

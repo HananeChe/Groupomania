@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-import { Link } from 'react-router-dom';
 import Navbar from '../components/Navbar';
 import './Publish.css'
 
@@ -75,25 +74,13 @@ onChangeImg = (event) => {
     .then(res => res.json())
     .then((data) => {
       console.log(formData)
-      alert('Votre post à été publié avec succés!')
+      alert('Votre post à été publié avec succés!');
     })
     .catch(error => {
       console.error(error);
     });
 }
   
-
-
-  renderPost =() => {
-        return (
-          <div>
-            <h3>Votre poste à été publié avec succés !</h3>
-          </div>
-        )
-    }
-
-
-
     render() {
     return (
         <div>

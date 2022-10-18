@@ -5,22 +5,11 @@ const fs = require('fs');
 //const ObjectId = require('mongoose').Types.ObjectId;
 
 exports.createPost = (req, res, next) => {
-/*const postObject = JSON.parse(req.body.post);
-    console.log(postObject);
-    delete postObject.userId;*/
+    const postObject = req.body
     const post = new PostsList({
-        //...postObject,
-        userId: req.body.userId,     
-        userName: req.body.userName,
-        content: req.body.content,
-        imageUrl: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`,  
-        comments: [],
-        likes : 0,
-        dislikes: 0,
-        usersLiked: [],
-        usersDisliked: []
-    });
-
+        ...postObject,
+        imageUrl: req.file ? `${req.protocol}://${req.get('host')}/images/${req.file.filename}` : null,
+    })
 
     post.save()
     .then(() => { res.status(201).json({message: 'Post enregistré !'})})

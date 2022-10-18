@@ -83,9 +83,7 @@ const toggleLog = () => {
   else {
     event.preventDefault();
     const emailValue = emailInputRef.current.value
-    console.log(emailValue);
     const passwordValue = passwordInputRef.current.value
-    console.log(passwordValue); 
   
   // gestion erreur de connexion
   if (emailValue.trim().length === 0 || passwordValue.trim().length === 0) {

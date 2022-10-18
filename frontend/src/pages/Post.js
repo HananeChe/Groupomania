@@ -26,7 +26,27 @@ export default function Post(data) {
     if (dataUpdate.userId === logCtx.userId || dataUser.isAdmin === true) {
       isAllowed = true;
     }
-
+  
+      //recup fiche user 
+  const getUser = (props) => {
+    return fetch('http://localhost:3001/api/auth/users/' + logCtx.userId,{
+      method: "GET",
+      headers:{
+        "Content-type" : "application/json",
+        Authorization: `Bearer ${logCtx.token}`
+      }
+      })
+      .then((res) => res.json())
+      .then((data) => {
+        setDataUser(data)
+        })
+      .catch((error) => {
+        console.error(error);
+      })
+    };
+  useEffect(() => {
+    getUser();
+  },[]); 
 
     // function recuperer un post avec l'id
     const getOnePost = (data) => {
@@ -66,11 +86,11 @@ export default function Post(data) {
           setDataUpdate(data)
           }, console.log(data))
           alert('Votre publication à bien été effacée')
+          let path = `/`; 
+          navigate(path)
       .catch((error) => {
           console.error(error);
       })
-        let path = `/`; 
-        navigate(path); 
     };
 
 // envoi la nouvelle image dans la dataUpdate
@@ -111,9 +131,9 @@ const updateHandler = () => {
       })
       .then((res) => res.json())
       .then((data) => {
+        getOnePost()
           setDataUpdate(dataUpdate);
           }, console.log(dataUpdate))
-          alert('Votre post à été modifié avec succés!')
       .catch((error) => {
           console.error(error);
       })
@@ -141,13 +161,13 @@ const like = () => {
     .then(
     (data) => {
       setLikes(data.data.like)
+      getOnePost()
       console.log(data.data.like);
   })
   .catch((error) => {
   console.error(error);
   })
 }
-
   // ajouter un dislike 
   const dislike = () => {
     fetch('http://localhost:3001/api/posts/' + id + "/like/", {
@@ -166,6 +186,7 @@ const like = () => {
     .then(
       (data) => {
         setDislikes(+1)
+        getOnePost()
         console.log(data.data.dislike);
     })
     .catch((error) => {
@@ -190,14 +211,15 @@ const like = () => {
     .then(res => res.json())
     .then(
       (data) => {
+        getOnePost()
         console.log(data.data.like);
-        console.log(data.data.dislike);;
+        console.log(data.data.dislike);
+        console.log(dataUpdate);
     })
     .catch((error) => {
     console.error(error);
     })
   }
-
 
 // si j'appui sur like une 1ere fois = fonction like() sinon remove like = 0 
 const handleLike = () => {
@@ -220,6 +242,7 @@ const handleDislike = () => {
   }
 }
 
+
 return (
   <div>
       <div>
@@ -230,7 +253,7 @@ return (
         <h1>{dataUpdate.userName} dit:</h1>
           <div key={"post" + dataUpdate._id} className="onePost">
               {!update && <p key={dataUpdate._id}onChange={updateHandler}>"{dataUpdate.content}"</p>}
-              {!update && <p><img src={dataUpdate.imageUrl} alt={"photo" + dataUpdate.content }></img></p>}
+              {!update && (dataUpdate.imageUrl !== null? <p><img src={dataUpdate.imageUrl} alt={"photo" + dataUpdate.content }></img></p> : <p></p>)}
               {update && <input type="text" onChange={updateHandler} ref={updatePost}></input>
               }
               {update && <input type="file"onChange={updateImgHandler}></input>}
@@ -252,4 +275,4 @@ return (
 }
 
 
-//
+
