@@ -73,16 +73,13 @@ export default function Post(data) {
         navigate(path); 
     };
 
-// envoi la nouvelle image dans la data 
+// envoi la nouvelle image dans la dataUpdate
     const updateImgHandler = (event) => {
       const newImg = event.target.files[0];
       setDataUpdate({
         ...dataUpdate,
         "imageUrl":  newImg,
       })
-      console.log(updatePost.target);
-      console.log(newImg);
-      console.log(dataUpdate.imageUrl);
     }
 // envoyer le nouveau post dans la data
 const updateHandler = () => {
@@ -92,7 +89,6 @@ const updateHandler = () => {
     "content":  newInput,
   })
 }
-
 
 // modifier un post 
     const updateRoute = (event) =>{ 
