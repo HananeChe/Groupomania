@@ -56,13 +56,10 @@ localStorage.setItem("userName", dataUser.userName,)
       .catch((error) => {
         console.error(error);
       })
-
     };
     useEffect(() => {
       getAllPost();
     }, []);
-
-
 
     return (
        <div>
