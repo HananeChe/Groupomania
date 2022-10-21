@@ -254,9 +254,9 @@ return (
           <div key={"post" + dataUpdate._id} className="onePost">
               {!update && <p key={dataUpdate._id}onChange={updateHandler}>"{dataUpdate.content}"</p>}
               {!update && (dataUpdate.imageUrl !== null? <p><img src={dataUpdate.imageUrl} alt={"photo" + dataUpdate.content }></img></p> : <p></p>)}
-              {update && <input type="text" onChange={updateHandler} ref={updatePost}></input>
+              {update && <input type="text" aria-label="text post" onChange={updateHandler} ref={updatePost}></input>
               }
-              {update && <input type="file"onChange={updateImgHandler}></input>}
+              {update && <input type="file"aria-label="image post" onChange={updateImgHandler}></input>}
               {isAllowed ?
                 <div className='btn'>
                 <button onClick={updateRoute}>Modifier</button>

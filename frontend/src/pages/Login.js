@@ -15,8 +15,6 @@ console.log(logCtx.userName);
 const [data, setData]= useState([]); 
 const [hasAccount, setHasAcount] = useState(true);
 
-
-
 //passer de se connecter à creer un compte 
 const toggleLog = () => {
   setHasAcount((prevState) => (!prevState))
@@ -83,7 +81,9 @@ const toggleLog = () => {
   else {
     event.preventDefault();
     const emailValue = emailInputRef.current.value
+    console.log(emailValue);
     const passwordValue = passwordInputRef.current.value
+    console.log(passwordValue); 
   
   // gestion erreur de connexion
   if (emailValue.trim().length === 0 || passwordValue.trim().length === 0) {
@@ -129,6 +129,7 @@ const toggleLog = () => {
     passwordInputRef.current.value = "";
   }
 }
+
   return (
     <div className='log'>
       {hasAccount? <h1>Connectez-vous</h1> : <h1>Créer un compte</h1>}
@@ -136,17 +137,17 @@ const toggleLog = () => {
 
       {!hasAccount && <div className='control'>
         <label htmlFor='name'>Votre identifiant:</label>
-        <input type="name" ref={userNameInputRef}></input>
+        <input type="name" aria-label="identifiant log" ref={userNameInputRef}></input>
         </div>}
 
         <div className='control'>
         <label htmlFor='email'>Votre email:</label>
-        <input type="email" ref={emailInputRef}></input>
+        <input type="email" aria-label="email log" ref={emailInputRef}></input>
         </div>
 
         <div className='control'>
         <label htmlFor='password'>Votre mot de passe:</label>
-        <input type="password" ref={passwordInputRef}></input>
+        <input type="password" aria-label="password log" ref={passwordInputRef}></input>
         </div>
 
         <div className='btnClick'>

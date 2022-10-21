@@ -95,7 +95,7 @@ export default class Comments extends Component {
         <div>
           <form>
             <label>Ecrire un commentaire :</label>
-            <input className='inputCom' type="textarea" name="content" value={this.state.content} onChange={this.onChange}/>
+            <input aria-label = "comments" className='inputCom' type="textarea" name="content" value={this.state.content} onChange={this.onChange}/>
             <div>
               <button className='comsBtn' onClick={this.onSubmit}>Publier un commentaire</button>
             </div>

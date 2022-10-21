@@ -90,8 +90,8 @@ onChangeImg = (event) => {
         <form onSubmit={this.onSubmit}>
         <div className='publish'>
             <label htmlFor='post'>Publier un post:</label>
-            <input type="text" name="content" onChange={this.onChange} value={this.state.content} className="inputText"/>
-            <input type="file" onChange={this.onChangeImg} name={this.state.imageUrl}className="inputFile"/>
+            <input type="text" name="content" aria-label="text post" onChange={this.onChange} value={this.state.content} className="inputText"/>
+            <input type="file" aria-label="image post" onChange={this.onChangeImg} name={this.state.imageUrl}className="inputFile"/>
             <button className='btn'>Valider</button>
         </div>
         <div>

@@ -34,7 +34,9 @@ exports.createComment = (req, res, next) => {
 exports.modifyPost = (req, res, next) => {
     PostsList.findOne({ _id: req.params.id })
     .then((post) => {
-        if (req.body.image_delete === 'true' || (req.file !== undefined && post.imageUrl !== null)) {
+        if (req.auth.isAdmin != true && post.userId != req.auth.userId ) {
+            res.status(401).json({message: 'Not authorized'});
+        } if (req.body.image_delete === 'true' || (req.file !== undefined && post.imageUrl !== null)) {
             const filename = post.imageUrl.split('/images/')[1]
             fs.unlink(`images/${filename}`, (error) => {
                 error && console.log(error)
@@ -52,35 +54,11 @@ exports.modifyPost = (req, res, next) => {
         PostsList.updateOne({ _id: req.params.id }, { ...postObject, _id: req.params.id })
             .then(() => res.status(200).json({ message: 'Votre publication a bien été mise à jour.' , data: {content: post.content}}))
             .catch(() => res.status(500).json({ error: 'Une erreur est survenue.' }))
-    })
+})
     .catch((error) => {
         res.status(500).json({ error: 'Une erreur est survenue.' })
     })
 }
-    /*const postObject = req.file
-    ? {
-          ...req.body,
-          imageUrl: req.file ? `${req.protocol}://${req.get('host')}/images/posts/${req.file.filename}` : null,
-      }
-    : {
-          ...req.body,
-      }
-    PostsList.findOne({_id: req.params.id})
-        .then((post) => {
-            if (post.userId != req.auth.userId && req.auth.isAdmin != true) {
-                res.status(401).json({ message : 'Not authorized'});
-            } else {
-    PostsList.updateOne({ _id: req.params.id},{ ...postObject, _id: req.params.id} )
-        .then(() => res.status(200).json({message : 'Post modifié!', data: {content: post.content}}))
-        .catch(error => res.status(401).json({ error }));
-            }
-        })
-        .catch((error) => {
-            res.status(400).json({ error });
-        });
-   };*/
-//essai ligne 59
-//{ ...postObject, _id: req.params.id, content: req.body.content}
 
 
 exports.deletePost = (req, res, next) => {
@@ -100,8 +78,6 @@ exports.deletePost = (req, res, next) => {
 });
 };
 
-/*const filename = post.imageUrl.split('/images/')[1];
-fs.unlink(`images/${filename}`, () => {*/
 
 exports.likePost = (req, res, next) => {
     let liked = req.body.like;
@@ -118,7 +94,7 @@ exports.likePost = (req, res, next) => {
                 .then(() => res.status(200).json({message : 'Like ajouté', data: {like: post.likes + 1}}))
                 .catch(error => res.status(401).json({ error }));
             } else {
-                console.log('user à déjà liké ce post');
+                console.log('User a déjà liké ce post');
                 res.status(200).json({message: 'User à déjà liké', data: {like: post.likes}})
             }
         });
